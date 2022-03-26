@@ -14,15 +14,4 @@ data class Note(
     fun isValidNote(): Boolean {
         return title.isNotBlank() && content.isNotBlank()
     }
-
-    companion object {
-        fun getFormattedNote(id: Int = 0, title: String, content: String, checked: Boolean?): Note {
-            return Note(
-                id = id, title = title.trim(),
-                content = content.trim(),
-                checked = checked
-            )
-        }
-    }
-
 }

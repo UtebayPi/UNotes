@@ -15,9 +15,9 @@ class ListViewModel(private val dao: NoteDao) : ViewModel() {
     fun getNote(id: Int) = dao.getNote(id).asLiveData()
 
     fun addNote(title: String, content: String, checked: Boolean?): Boolean {
-        val note = Note.getFormattedNote(
-            title = title,
-            content = content,
+        val note = Note(
+            title = title.trim(),
+            content = content.trim(),
             checked = checked
         )
         if (!note.isValidNote()) return false
@@ -32,10 +32,10 @@ class ListViewModel(private val dao: NoteDao) : ViewModel() {
     }
 
     fun updateNote(id: Int, title: String, content: String, checked: Boolean?): Boolean {
-        val note = Note.getFormattedNote(
+        val note = Note(
             id = id,
-            title = title,
-            content = content,
+            title = title.trim(),
+            content = content.trim(),
             checked = checked
         )
         if (!note.isValidNote()) return false
