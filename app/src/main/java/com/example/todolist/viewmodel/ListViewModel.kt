@@ -23,6 +23,7 @@ class ListViewModel(private val dao: NoteDao) : ViewModel() {
         if (!note.isValidNote()) return false
         viewModelScope.launch {
             try {
+
                 dao.insert(note)
             } catch (e: Exception) {
                 Log.d(VIEW_MODEL, "Exception caught: $e")
