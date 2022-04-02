@@ -45,11 +45,7 @@ class AddEditFragment : Fragment() {
     private fun addNote() {
         binding.actionButton.text = "Save"
         binding.actionButton.setOnClickListener {
-            val valid = viewModel.addNote(
-                title = binding.titleInput.text.toString(),
-                content = binding.contentInput.text.toString(),
-                checked = if (binding.checkBox.isChecked) false else null
-            )
+            val valid = viewModel.addNote(getNoteFromInput())
             if (!valid) return@setOnClickListener
             findNavController().navigate(AddEditFragmentDirections.actionAddEditFragmentToListFragment())
         }
@@ -66,17 +62,20 @@ class AddEditFragment : Fragment() {
             binding.titleInput.setText(note.title, TextView.BufferType.SPANNABLE)
             binding.contentInput.setText(note.content, TextView.BufferType.SPANNABLE)
             binding.actionButton.setOnClickListener {
-                val valid = viewModel.updateNote(
-                    id = id,
-                    title = binding.titleInput.text.toString(),
-                    content = binding.contentInput.text.toString(),
-                    checked = if (binding.checkBox.isChecked) false else null
-                )
+                val valid = viewModel.updateNote(getNoteFromInput(id))
                 if (!valid) return@setOnClickListener
                 findNavController().popBackStack()
             }
 
         }
+    }
+
+    fun getNoteFromInput(id: Int = 0): Note{
+        return Note(
+            id = if(id>0) id else 0,
+            title = binding.titleInput.text.toString().trim(),
+            content = binding.contentInput.text.toString().trim(),
+            checked = if (binding.checkBox.isChecked) false else null)
     }
 
     override fun onDestroyView() {

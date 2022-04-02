@@ -14,16 +14,11 @@ class ListViewModel(private val dao: NoteDao) : ViewModel() {
 
     fun getNote(id: Int) = dao.getNote(id).asLiveData()
 
-    fun addNote(title: String, content: String, checked: Boolean?): Boolean {
-        val note = Note(
-            title = title.trim(),
-            content = content.trim(),
-            checked = checked
-        )
+
+    fun addNote(note: Note): Boolean {
         if (!note.isValidNote()) return false
         viewModelScope.launch {
             try {
-
                 dao.insert(note)
             } catch (e: Exception) {
                 Log.d(VIEW_MODEL, "Exception caught: $e")
@@ -32,13 +27,7 @@ class ListViewModel(private val dao: NoteDao) : ViewModel() {
         return true
     }
 
-    fun updateNote(id: Int, title: String, content: String, checked: Boolean?): Boolean {
-        val note = Note(
-            id = id,
-            title = title.trim(),
-            content = content.trim(),
-            checked = checked
-        )
+    fun updateNote(note: Note): Boolean {
         if (!note.isValidNote()) return false
         viewModelScope.launch {
             try {

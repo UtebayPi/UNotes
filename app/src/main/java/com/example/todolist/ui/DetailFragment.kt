@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -57,12 +56,7 @@ class DetailFragment : Fragment() {
             binding.isDone.visibility = View.VISIBLE
             binding.isDone.isChecked = note.checked
             binding.isDone.setOnCheckedChangeListener { button, b ->
-                viewModel.updateNote(
-                    id = note.id,
-                    title = note.title,
-                    content = note.content,
-                    checked = b
-                )
+                viewModel.updateNote(note.copy(checked = b))
             }
         } else {
             binding.isDone.visibility = View.GONE
