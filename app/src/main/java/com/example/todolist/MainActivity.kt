@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.about -> {
-                Toast.makeText(this, "Made by Parasat Utebay", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.creator_name), Toast.LENGTH_SHORT).show()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

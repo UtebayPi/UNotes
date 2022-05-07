@@ -43,7 +43,7 @@ class AddEditFragment : Fragment() {
     }
 
     private fun addNote() {
-        binding.actionButton.text = "Save"
+        binding.actionButton.text = getString(R.string.save)
         binding.actionButton.setOnClickListener {
             val valid = viewModel.addNote(getNoteFromInput())
             if (!valid) return@setOnClickListener
@@ -52,7 +52,7 @@ class AddEditFragment : Fragment() {
     }
 
     private fun updateNote(id: Int) {
-        binding.actionButton.text = "Update"
+        binding.actionButton.text = getString(R.string.update)
         viewModel.getNote(id).observe(viewLifecycleOwner) { note: Note? ->
             if (note == null) {
                 findNavController().popBackStack()
@@ -70,7 +70,7 @@ class AddEditFragment : Fragment() {
         }
     }
 
-    fun getNoteFromInput(id: Int = 0): Note{
+    private fun getNoteFromInput(id: Int = 0): Note{
         return Note(
             id = if(id>0) id else 0,
             title = binding.titleInput.text.toString().trim(),

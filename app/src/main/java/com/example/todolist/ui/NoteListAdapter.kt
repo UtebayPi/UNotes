@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.todolist.R
 import com.example.todolist.data.Note
 import com.example.todolist.databinding.FragmentNoteBinding
 
@@ -21,7 +22,8 @@ class NoteListAdapter(
             binding.note = note
             if (note.checked != null) {
                 binding.checked.visibility = View.VISIBLE
-                binding.checked.text = if (note.checked) "Сделано" else "Не выполнено"
+                binding.checked.text =
+                    this.itemView.context.getString(if (note.checked) R.string.done else R.string.not_done)
             } else {
                 binding.checked.visibility = View.GONE
             }

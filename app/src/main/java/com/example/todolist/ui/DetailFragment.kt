@@ -63,12 +63,12 @@ class DetailFragment : Fragment() {
         }
         binding.deleteButton.setOnClickListener {
             val builder = MaterialAlertDialogBuilder(requireContext())
-            builder.setMessage("Do you want to delete it?")
-                .setPositiveButton("Yes") { dialogInterface, i ->
+            builder.setMessage(getString(R.string.question))// "Do you want to delete it?"
+                .setPositiveButton(getString(R.string.yes)) { dialogInterface, i ->
                     viewModel.deleteNote(note)
                     findNavController().popBackStack()
                 }
-                .setNegativeButton("No") { dialogInterface, i -> }
+                .setNegativeButton(getString(R.string.no)) { dialogInterface, i -> }
             builder.create().show() // чтобы работало
 
         }
