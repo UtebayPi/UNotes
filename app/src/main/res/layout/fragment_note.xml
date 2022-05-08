@@ -7,7 +7,7 @@
 
         <variable
             name="note"
-            type="com.example.todolist.data.Note" />
+            type="com.utebayKazAlm.todolist.data.Note" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

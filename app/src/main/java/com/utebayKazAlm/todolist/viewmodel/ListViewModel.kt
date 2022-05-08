@@ -1,9 +1,9 @@
-package com.example.todolist.viewmodel
+package com.utebayKazAlm.todolist.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.todolist.data.Note
-import com.example.todolist.data.NoteDao
+import com.utebayKazAlm.todolist.data.Note
+import com.utebayKazAlm.todolist.data.NoteDao
 import kotlinx.coroutines.launch
 
 const val VIEW_MODEL = "ListViewModel"

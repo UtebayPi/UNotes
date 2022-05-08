@@ -9,9 +9,9 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.todolist"
+        applicationId "com.UtebayKazAlm.todolist"
         minSdk 21
-        targetSdk 29
+        targetSdk 30
         versionCode 1
         versionName "1.0"
 

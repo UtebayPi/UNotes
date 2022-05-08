@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.todolist.viewmodel.ListViewModel" />
+            type="com.utebayKazAlm.todolist.viewmodel.ListViewModel" />
 
     </data>
 

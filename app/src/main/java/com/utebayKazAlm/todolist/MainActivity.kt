@@ -1,4 +1,4 @@
-package com.example.todolist
+package com.utebayKazAlm.todolist
 
 import android.os.Bundle
 import android.view.Menu
@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.todolist.databinding.ActivityMainBinding
+import com.utebayKazAlm.todolist.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {

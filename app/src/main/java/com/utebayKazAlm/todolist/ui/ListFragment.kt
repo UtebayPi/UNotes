@@ -1,4 +1,4 @@
-package com.example.todolist.ui
+package com.utebayKazAlm.todolist.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,11 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.todolist.BaseApplication
-import com.example.todolist.R
-import com.example.todolist.data.Note
-import com.example.todolist.databinding.FragmentListBinding
-import com.example.todolist.viewmodel.ListViewModel
+import com.utebayKazAlm.todolist.BaseApplication
+import com.utebayKazAlm.todolist.R
+import com.utebayKazAlm.todolist.data.Note
+import com.utebayKazAlm.todolist.databinding.FragmentListBinding
+import com.utebayKazAlm.todolist.viewmodel.ListViewModel
 
 class ListFragment : Fragment() {
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UNotes</string>
+    <string name="app_name" translatable="false">UteNotes</string>
     <string name="creator_name">Made by Parasat Utebay</string>
     <string name="done">Done</string>
     <string name="not_done">Not done</string>

@@ -18,6 +18,8 @@
         <entry key="app/src/main/res/layout/fragment_note.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.18854166666666666" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.18854166666666666" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1405" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1405" />
       </map>
     </option>
   </component>

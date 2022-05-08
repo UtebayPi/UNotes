@@ -1,7 +1,7 @@
-package com.example.todolist
+package com.utebayKazAlm.todolist
 
 import android.app.Application
-import com.example.todolist.data.NoteDatabase
+import com.utebayKazAlm.todolist.data.NoteDatabase
 
 class BaseApplication: Application() {
     val database: NoteDatabase by lazy {
