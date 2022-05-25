@@ -20,9 +20,7 @@ class ListFragment : Fragment() {
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ListViewModel by activityViewModels()
-//    {
-//        ListViewModel.Factory((activity?.application as BaseApplication).database.noteDao())
-//    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false)
@@ -38,7 +36,7 @@ class ListFragment : Fragment() {
             findNavController().navigate(action)
         }
         binding.list.adapter = adapter
-        viewModel.notes.observe(viewLifecycleOwner) {it: List<Note>?->
+        viewModel.notes.observe(viewLifecycleOwner) { it: List<Note>? ->
             adapter.submitList(it)
         }
 
