@@ -1,7 +1,8 @@
 package com.utebayKazAlm.todolist.data
 
 import android.util.Log
-import com.utebayKazAlm.todolist.viewmodel.VIEW_MODEL
+import com.utebayKazAlm.todolist.data.room.Note
+import com.utebayKazAlm.todolist.data.room.NoteDao
 
 const val DATA_SOURCE = "DataSource"
 class NoteDataSource (val dao: NoteDao) {
@@ -22,7 +23,7 @@ class NoteDataSource (val dao: NoteDao) {
         try {
             dao.update(note)
         } catch (e: Exception) {
-            Log.d(VIEW_MODEL, "Exception caught: $e")
+            Log.d(DATA_SOURCE, "Exception caught: $e")
         }
     }
 
@@ -30,7 +31,7 @@ class NoteDataSource (val dao: NoteDao) {
         try {
             dao.delete(note)
         } catch (e: Exception) {
-            Log.d(VIEW_MODEL, "Exception caught: $e")
+            Log.d(DATA_SOURCE, "Exception caught: $e")
         }
     }
 }

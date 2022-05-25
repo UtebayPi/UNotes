@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.utebayKazAlm.todolist.R
-import com.utebayKazAlm.todolist.data.Note
+import com.utebayKazAlm.todolist.data.room.Note
 import com.utebayKazAlm.todolist.databinding.FragmentNoteBinding
 
 class NoteListAdapter(

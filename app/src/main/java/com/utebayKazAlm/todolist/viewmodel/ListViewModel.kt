@@ -1,10 +1,7 @@
 package com.utebayKazAlm.todolist.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.utebayKazAlm.todolist.data.Note
-import com.utebayKazAlm.todolist.data.NoteDao
-import com.utebayKazAlm.todolist.data.NoteDatabase
+import com.utebayKazAlm.todolist.data.room.Note
 import com.utebayKazAlm.todolist.data.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

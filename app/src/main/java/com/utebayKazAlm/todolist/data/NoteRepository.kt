@@ -1,12 +1,17 @@
 package com.utebayKazAlm.todolist.data
 
-
+import com.utebayKazAlm.todolist.data.room.Note
 
 
 class NoteRepository (val dataSource: NoteDataSource) {
+
     val notes = dataSource.notes
+
     fun getNote(id: Int) = dataSource.getNote(id)
+
     suspend fun addNote(note: Note):Boolean{
+        // isValidNote это логика, потому и в репозиторий. Она проверяет, правильного ли формата
+        //запись. Если нет то отменяет операцию и возвращяет false
         if (!note.isValidNote()) return false
         dataSource.addNote(note)
         return true

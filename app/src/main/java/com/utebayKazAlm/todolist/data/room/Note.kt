@@ -1,4 +1,4 @@
-package com.utebayKazAlm.todolist.data
+package com.utebayKazAlm.todolist.data.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -13,6 +13,7 @@ data class Note(
     // Если задача true то это выполнено, а если false то не выполнено
     val checked: Boolean? = null,
 ) {
+    //Проверяем, правильного ли формата запись.
     fun isValidNote(): Boolean {
         return title.isNotBlank() && content.isNotBlank()
     }

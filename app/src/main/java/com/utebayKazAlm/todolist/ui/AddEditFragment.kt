@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.utebayKazAlm.todolist.R
-import com.utebayKazAlm.todolist.data.Note
+import com.utebayKazAlm.todolist.data.room.Note
 import com.utebayKazAlm.todolist.databinding.FragmentAddEditBinding
 import com.utebayKazAlm.todolist.viewmodel.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +23,6 @@ class AddEditFragment : Fragment() {
     private var _binding: FragmentAddEditBinding? = null
     private val binding get() = _binding!!
     private val navArgs: AddEditFragmentArgs by navArgs()
-
     private val viewModel: ListViewModel by activityViewModels()
 
 
@@ -37,6 +36,7 @@ class AddEditFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         val id = navArgs.id
+        // Проверяем, создание новой записи или изменение существующей
         if (id > 0) {
             updateNote(id)
         } else {
@@ -48,6 +48,7 @@ class AddEditFragment : Fragment() {
         binding.actionButton.text = getString(R.string.save)
         binding.actionButton.setOnClickListener {
             lifecycleScope.launch {
+                //Смотря на валидность данных, возвращяемся если так.
                 val valid = viewModel.addNote(getNoteFromInput())
                 if (valid)
                     findNavController().navigate(AddEditFragmentDirections.actionAddEditFragmentToListFragment())

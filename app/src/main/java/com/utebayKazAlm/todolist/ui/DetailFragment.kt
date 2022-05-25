@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.utebayKazAlm.todolist.R
-import com.utebayKazAlm.todolist.data.Note
+import com.utebayKazAlm.todolist.data.room.Note
 import com.utebayKazAlm.todolist.databinding.FragmentDetailBinding
 import com.utebayKazAlm.todolist.viewmodel.ListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -39,6 +39,8 @@ class DetailFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         val id = navArgs.id
         viewModel.getNote(id).observe(viewLifecycleOwner) { note: Note? ->
+            //Эта проверка нужно чтобы избежать ошибок. LiveData даже если указано что не может
+            //возвращять null используя null safety, если запись удалится в базе данных, возвращяет null.
             if (note == null) {
                 findNavController().popBackStack()
             } else {
