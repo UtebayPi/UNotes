@@ -8,24 +8,25 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.utebayKazAlm.todolist.BaseApplication
 import com.utebayKazAlm.todolist.R
-import com.utebayKazAlm.todolist.data.Note
+import com.utebayKazAlm.todolist.data.room.Note
 import com.utebayKazAlm.todolist.databinding.FragmentAddEditBinding
 import com.utebayKazAlm.todolist.viewmodel.ListViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AddEditFragment : Fragment() {
     private var _binding: FragmentAddEditBinding? = null
     private val binding get() = _binding!!
     private val navArgs: AddEditFragmentArgs by navArgs()
+    private val viewModel: ListViewModel by activityViewModels()
 
-    private val viewModel: ListViewModel by activityViewModels {
-        ListViewModel.Factory((activity?.application as BaseApplication).database.noteDao())
-    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_edit, container, false)
         return binding.root
     }
@@ -35,6 +36,7 @@ class AddEditFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         val id = navArgs.id
+        // Проверяем, создание новой записи или изменение существующей
         if (id > 0) {
             updateNote(id)
         } else {
@@ -45,9 +47,12 @@ class AddEditFragment : Fragment() {
     private fun addNote() {
         binding.actionButton.text = getString(R.string.save)
         binding.actionButton.setOnClickListener {
-            val valid = viewModel.addNote(getNoteFromInput())
-            if (!valid) return@setOnClickListener
-            findNavController().navigate(AddEditFragmentDirections.actionAddEditFragmentToListFragment())
+            lifecycleScope.launch {
+                //Смотря на валидность данных, возвращяемся если так.
+                val valid = viewModel.addNote(getNoteFromInput())
+                if (valid)
+                    findNavController().navigate(AddEditFragmentDirections.actionAddEditFragmentToListFragment())
+            }
         }
     }
 
@@ -62,20 +67,23 @@ class AddEditFragment : Fragment() {
             binding.titleInput.setText(note.title, TextView.BufferType.SPANNABLE)
             binding.contentInput.setText(note.content, TextView.BufferType.SPANNABLE)
             binding.actionButton.setOnClickListener {
-                val valid = viewModel.updateNote(getNoteFromInput(id))
-                if (!valid) return@setOnClickListener
-                findNavController().popBackStack()
+                lifecycleScope.launch {
+                    val valid = viewModel.updateNote(getNoteFromInput(id))
+                    if (valid)
+                        findNavController().popBackStack()
+                }
             }
 
         }
     }
 
-    private fun getNoteFromInput(id: Int = 0): Note{
+    private fun getNoteFromInput(id: Int = 0): Note {
         return Note(
-            id = if(id>0) id else 0,
+            id = if (id > 0) id else 0,
             title = binding.titleInput.text.toString().trim(),
             content = binding.contentInput.text.toString().trim(),
-            checked = if (binding.checkBox.isChecked) false else null)
+            checked = if (binding.checkBox.isChecked) false else null
+        )
     }
 
     override fun onDestroyView() {

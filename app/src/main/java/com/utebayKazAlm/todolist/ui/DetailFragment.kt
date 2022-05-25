@@ -8,26 +8,27 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.utebayKazAlm.todolist.BaseApplication
 import com.utebayKazAlm.todolist.R
-import com.utebayKazAlm.todolist.data.Note
+import com.utebayKazAlm.todolist.data.room.Note
 import com.utebayKazAlm.todolist.databinding.FragmentDetailBinding
 import com.utebayKazAlm.todolist.viewmodel.ListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private val navArgs: DetailFragmentArgs by navArgs()
 
-    private val viewModel: ListViewModel by activityViewModels {
-        ListViewModel.Factory((activity?.application as BaseApplication).database.noteDao())
-    }
+    private val viewModel: ListViewModel by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
         return binding.root
     }
@@ -38,6 +39,8 @@ class DetailFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         val id = navArgs.id
         viewModel.getNote(id).observe(viewLifecycleOwner) { note: Note? ->
+            //Эта проверка нужно чтобы избежать ошибок. LiveData даже если указано что не может
+            //возвращять null используя null safety, если запись удалится в базе данных, возвращяет null.
             if (note == null) {
                 findNavController().popBackStack()
             } else {
@@ -52,13 +55,18 @@ class DetailFragment : Fragment() {
             titleText.text = note.title
             contentText.text = note.content
         }
+        //Проверяем какого типа записка. Классификаций написал в Note. Если это задача (checked != null) то
+        //делаем кнопку изменения статуса задачи видимой, checkbox даем значение checked, и при
+        // его нажатий, меняем checked в note
         if (note.checked != null) {
             binding.isDone.visibility = View.VISIBLE
             binding.isDone.isChecked = note.checked
             binding.isDone.setOnCheckedChangeListener { button, b ->
-                viewModel.updateNote(note.copy(checked = b))
+                lifecycleScope.launch {
+                    viewModel.updateNote(note.copy(checked = b))
+                }
             }
-        } else {
+        } else { // Если просто записка (checked = null), то скрываем кнопку
             binding.isDone.visibility = View.GONE
         }
         binding.deleteButton.setOnClickListener {

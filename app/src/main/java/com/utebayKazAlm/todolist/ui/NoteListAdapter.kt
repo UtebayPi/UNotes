@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.utebayKazAlm.todolist.R
-import com.utebayKazAlm.todolist.data.Note
+import com.utebayKazAlm.todolist.data.room.Note
 import com.utebayKazAlm.todolist.databinding.FragmentNoteBinding
 
 class NoteListAdapter(
     private val clickListener: (Note) -> Unit
-) : ListAdapter<Note, NoteListAdapter.ForageableViewHolder>(DiffCallback) {
+) : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(DiffCallback) {
 
-    class ForageableViewHolder(
+    class NoteViewHolder(
         private var binding: FragmentNoteBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -42,18 +42,18 @@ class NoteListAdapter(
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForageableViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return ForageableViewHolder(
+        return NoteViewHolder(
             FragmentNoteBinding.inflate(layoutInflater, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: ForageableViewHolder, position: Int) {
-        val forageable = getItem(position)
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
+        val note = getItem(position)
         holder.itemView.setOnClickListener {
-            clickListener(forageable)
+            clickListener(note)
         }
-        holder.bind(forageable)
+        holder.bind(note)
     }
 }

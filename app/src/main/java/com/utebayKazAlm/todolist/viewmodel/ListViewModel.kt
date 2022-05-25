@@ -1,63 +1,36 @@
 package com.utebayKazAlm.todolist.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.utebayKazAlm.todolist.data.Note
-import com.utebayKazAlm.todolist.data.NoteDao
+import com.utebayKazAlm.todolist.data.room.Note
+import com.utebayKazAlm.todolist.data.NoteRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 const val VIEW_MODEL = "ListViewModel"
 
-class ListViewModel(private val dao: NoteDao) : ViewModel() {
-
-    val notes = dao.getNotes().asLiveData()
-
-    fun getNote(id: Int) = dao.getNote(id).asLiveData()
+@HiltViewModel
+class ListViewModel @Inject constructor(val repository: NoteRepository) : ViewModel() {
 
 
-    fun addNote(note: Note): Boolean {
-        if (!note.isValidNote()) return false
-        viewModelScope.launch {
-            try {
-                dao.insert(note)
-            } catch (e: Exception) {
-                Log.d(VIEW_MODEL, "Exception caught: $e")
-            }
-        }
-        return true
+    val notes = repository.notes.asLiveData()
+
+    fun getNote(id: Int) = repository.getNote(id).asLiveData()
+
+
+    suspend fun addNote(note: Note): Boolean {
+        return repository.addNote(note)
     }
 
-    fun updateNote(note: Note): Boolean {
-        if (!note.isValidNote()) return false
-        viewModelScope.launch {
-            try {
-                dao.update(note)
-            } catch (e: Exception) {
-                Log.d(VIEW_MODEL, "Exception caught: $e")
-            }
-        }
-        return true
+    suspend fun updateNote(note: Note): Boolean {
+        return repository.updateNote(note)
     }
 
     fun deleteNote(note: Note) {
         viewModelScope.launch {
-            try {
-                dao.delete(note)
-            } catch (e: Exception) {
-                Log.d(VIEW_MODEL, "Exception caught: $e")
-            }
+            repository.deleteNote(note)
         }
 
-    }
-
-    class Factory(private val dao: NoteDao) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(ListViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return ListViewModel(dao) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
     }
 }
 

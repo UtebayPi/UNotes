@@ -1,6 +1,7 @@
-package com.utebayKazAlm.todolist.data
+package com.utebayKazAlm.todolist.data.room
 
 import androidx.room.*
+import com.utebayKazAlm.todolist.data.room.Note
 import kotlinx.coroutines.flow.Flow
 
 @Dao

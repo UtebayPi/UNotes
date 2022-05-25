@@ -3,7 +3,7 @@
     package="com.utebayKazAlm.todolist">
 
     <application
-        android:name="com.utebayKazAlm.todolist.BaseApplication"
+        android:name="com.utebayKazAlm.todolist.NoteApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

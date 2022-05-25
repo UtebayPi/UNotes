@@ -1,10 +1,7 @@
 package com.utebayKazAlm.todolist
 
 import android.app.Application
-import com.utebayKazAlm.todolist.data.NoteDatabase
+import dagger.hilt.android.HiltAndroidApp
 
-class BaseApplication: Application() {
-    val database: NoteDatabase by lazy {
-        NoteDatabase.getDatabase(this)
-    }
-}
+@HiltAndroidApp
+class NoteApplication: Application()
