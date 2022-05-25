@@ -8,21 +8,23 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.utebayKazAlm.todolist.BaseApplication
 import com.utebayKazAlm.todolist.R
 import com.utebayKazAlm.todolist.data.Note
 import com.utebayKazAlm.todolist.databinding.FragmentListBinding
 import com.utebayKazAlm.todolist.viewmodel.ListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ListViewModel by activityViewModels {
-        ListViewModel.Factory((activity?.application as BaseApplication).database.noteDao())
-    }
+    private val viewModel: ListViewModel by activityViewModels()
+//    {
+//        ListViewModel.Factory((activity?.application as BaseApplication).database.noteDao())
+//    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false)
         return binding.root
     }

@@ -4,11 +4,16 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.utebayKazAlm.todolist.data.Note
 import com.utebayKazAlm.todolist.data.NoteDao
+import com.utebayKazAlm.todolist.data.NoteDatabase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 const val VIEW_MODEL = "ListViewModel"
+@HiltViewModel
+class ListViewModel @Inject constructor ( val database: NoteDatabase) : ViewModel() {
 
-class ListViewModel(private val dao: NoteDao) : ViewModel() {
+    private val dao = database.noteDao()
 
     val notes = dao.getNotes().asLiveData()
 
@@ -50,14 +55,14 @@ class ListViewModel(private val dao: NoteDao) : ViewModel() {
 
     }
 
-    class Factory(private val dao: NoteDao) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(ListViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return ListViewModel(dao) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-    }
+//    class Factory(private val dao: NoteDao) : ViewModelProvider.Factory {
+//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//            if (modelClass.isAssignableFrom(ListViewModel::class.java)) {
+//                @Suppress("UNCHECKED_CAST")
+//                return ListViewModel(dao) as T
+//            }
+//            throw IllegalArgumentException("Unknown ViewModel class")
+//        }
+//    }
 }
 
