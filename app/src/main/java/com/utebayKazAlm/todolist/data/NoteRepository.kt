@@ -1,10 +1,9 @@
 package com.utebayKazAlm.todolist.data
 
-import androidx.lifecycle.asLiveData
-import dagger.hilt.android.scopes.ViewModelScoped
-import javax.inject.Inject
 
-class NoteRepository @Inject constructor(val dataSource: NoteDataSource) {
+
+
+class NoteRepository (val dataSource: NoteDataSource) {
     val notes = dataSource.notes
     fun getNote(id: Int) = dataSource.getNote(id)
     suspend fun addNote(note: Note):Boolean{

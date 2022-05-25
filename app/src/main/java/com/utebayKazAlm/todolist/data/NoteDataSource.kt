@@ -2,12 +2,9 @@ package com.utebayKazAlm.todolist.data
 
 import android.util.Log
 import com.utebayKazAlm.todolist.viewmodel.VIEW_MODEL
-import dagger.hilt.android.scopes.ViewModelScoped
-import javax.inject.Inject
 
 const val DATA_SOURCE = "DataSource"
-
-class NoteDataSource @Inject constructor(val dao: NoteDao) {
+class NoteDataSource (val dao: NoteDao) {
 
     val notes = dao.getNotes()
 

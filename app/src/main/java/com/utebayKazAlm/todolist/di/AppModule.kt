@@ -18,7 +18,7 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun providesDatabase(@ApplicationContext context: Context): NoteDatabase {
+    fun provideDatabase(@ApplicationContext context: Context): NoteDatabase {
         return Room.databaseBuilder(
             context.applicationContext,
             NoteDatabase::class.java,
@@ -27,9 +27,9 @@ object AppModule {
     }
     @Provides
     @Singleton
-    fun providesRepository(dataSource: NoteDataSource): NoteRepository = NoteRepository(dataSource)
+    fun provideRepository(dataSource: NoteDataSource): NoteRepository = NoteRepository(dataSource)
 
     @Provides
     @Singleton
-    fun providesDataSource(database: NoteDatabase): NoteDataSource = NoteDataSource(database.noteDao())
+    fun provideDataSource(database: NoteDatabase): NoteDataSource = NoteDataSource(database.noteDao())
 }
