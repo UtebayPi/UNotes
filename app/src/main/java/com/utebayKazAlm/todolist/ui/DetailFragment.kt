@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.utebayKazAlm.todolist.R
@@ -62,7 +63,7 @@ class DetailFragment : Fragment() {
             binding.isDone.visibility = View.VISIBLE
             binding.isDone.isChecked = note.checked
             binding.isDone.setOnCheckedChangeListener { button, b ->
-                lifecycleScope.launch {
+                viewModel.viewModelScope.launch {
                     viewModel.updateNote(note.copy(checked = b))
                 }
             }
