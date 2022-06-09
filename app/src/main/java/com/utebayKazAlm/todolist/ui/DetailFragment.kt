@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -18,6 +20,7 @@ import com.utebayKazAlm.todolist.databinding.FragmentDetailBinding
 import com.utebayKazAlm.todolist.viewmodel.ListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -39,13 +42,17 @@ class DetailFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         val id = navArgs.id
-        viewModel.getNote(id).observe(viewLifecycleOwner) { note: Note? ->
-            //Эта проверка нужно чтобы избежать ошибок. LiveData даже если указано что не может
-            //возвращять null используя null safety, если запись удалится в базе данных, возвращяет null.
-            if (note == null) {
-                findNavController().popBackStack()
-            } else {
-                bindNote(note)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getNote(id).collectLatest { note: Note? ->
+                    //Эта проверка нужно чтобы избежать ошибок. LiveData даже если указано что не может
+                    //возвращять null используя null safety, если запись удалится в базе данных, возвращяет null.
+                    if (note == null) {
+                        findNavController().popBackStack()
+                    } else {
+                        bindNote(note)
+                    }
+                }
             }
         }
 

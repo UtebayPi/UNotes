@@ -7,12 +7,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.utebayKazAlm.todolist.R
 import com.utebayKazAlm.todolist.data.room.Note
 import com.utebayKazAlm.todolist.databinding.FragmentListBinding
 import com.utebayKazAlm.todolist.viewmodel.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ListFragment : Fragment() {
@@ -37,8 +42,13 @@ class ListFragment : Fragment() {
             findNavController().navigate(action)
         }
         binding.list.adapter = adapter
-        viewModel.notes.observe(viewLifecycleOwner) { it: List<Note>? ->
-            adapter.submitList(it)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.notes.collectLatest { it: List<Note>? ->
+                    adapter.submitList(it)
+                }
+            }
         }
 
         binding.addButton.setOnClickListener {

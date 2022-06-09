@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -18,6 +20,7 @@ import com.utebayKazAlm.todolist.databinding.FragmentAddEditBinding
 import com.utebayKazAlm.todolist.viewmodel.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.Thread.sleep
 
@@ -50,7 +53,7 @@ class AddEditFragment : Fragment() {
     private fun addNote() {
         binding.actionButton.text = getString(R.string.save)
         binding.actionButton.setOnClickListener {
-            viewModel.viewModelScope.launch{
+            viewModel.viewModelScope.launch {
                 //Смотря на валидность данных, возвращяемся если так.
                 val valid = viewModel.addNote(getNoteFromInput())
                 if (valid)
@@ -61,22 +64,30 @@ class AddEditFragment : Fragment() {
 
     private fun updateNote(id: Int) {
         binding.actionButton.text = getString(R.string.update)
-        viewModel.getNote(id).observe(viewLifecycleOwner) { note: Note? ->
-            if (note == null) {
-                findNavController().popBackStack()
-                return@observe
-            }
-            if (note.checked != null) binding.checkBox.isChecked = true
-            binding.titleInput.setText(note.title, TextView.BufferType.SPANNABLE)
-            binding.contentInput.setText(note.content, TextView.BufferType.SPANNABLE)
-            binding.actionButton.setOnClickListener {
-                viewModel.viewModelScope.launch {
-                    val valid = viewModel.updateNote(getNoteFromInput(id))
-                    if (valid)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getNote(id).collectLatest { note: Note? ->
+                    if (note == null) {
                         findNavController().popBackStack()
+                        return@collectLatest
+                    }
+
+                    binding.apply {
+                        if (note.checked != null) checkBox.isChecked = true
+                        titleInput.setText(note.title, TextView.BufferType.SPANNABLE)
+                        contentInput.setText(note.content, TextView.BufferType.SPANNABLE)
+                    }
+
+                    binding.actionButton.setOnClickListener {
+                        viewModel.viewModelScope.launch {
+                            val valid = viewModel.updateNote(getNoteFromInput(id))
+                            if (valid)
+                                findNavController().popBackStack()
+                        }
+                    }
+
                 }
             }
-
         }
     }
 

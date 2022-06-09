@@ -13,9 +13,9 @@ const val VIEW_MODEL = "ListViewModel"
 class ListViewModel @Inject constructor(val repository: NoteRepository) : ViewModel() {
 
 
-    val notes = repository.notes.asLiveData()
+    val notes = repository.notes
 
-    fun getNote(id: Int) = repository.getNote(id).asLiveData()
+    fun getNote(id: Int) = repository.getNote(id)
 
 
     suspend fun addNote(note: Note): Boolean {
