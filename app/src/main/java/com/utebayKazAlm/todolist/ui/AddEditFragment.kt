@@ -62,6 +62,7 @@ class AddEditFragment : Fragment() {
         }
     }
 
+
     private fun updateNote(id: Int) {
         binding.actionButton.text = getString(R.string.update)
         lifecycleScope.launch {
