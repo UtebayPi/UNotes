@@ -45,7 +45,7 @@ class DetailFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getNote(id).collectLatest { note: Note? ->
-                    //Эта проверка нужно чтобы избежать ошибок. LiveData даже если указано что не может
+                    //Эта проверка нужно чтобы избежать ошибок. Даже если указано что не может
                     //возвращять null используя null safety, если запись удалится в базе данных, возвращяет null.
                     if (note == null) {
                         findNavController().popBackStack()

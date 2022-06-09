@@ -65,20 +65,22 @@ class AddEditFragment : Fragment() {
 
     private fun updateNote(id: Int) {
         binding.actionButton.text = getString(R.string.update)
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getNote(id).collectLatest { note: Note? ->
+                    //проверяем на null
                     if (note == null) {
                         findNavController().popBackStack()
                         return@collectLatest
                     }
-
+                    //берем существующий note из бд, и ставим его значения в поля
                     binding.apply {
                         if (note.checked != null) checkBox.isChecked = true
                         titleInput.setText(note.title, TextView.BufferType.SPANNABLE)
                         contentInput.setText(note.content, TextView.BufferType.SPANNABLE)
                     }
-
+                    //обновляем note
                     binding.actionButton.setOnClickListener {
                         viewModel.viewModelScope.launch {
                             val valid = viewModel.updateNote(getNoteFromInput(id))
@@ -91,7 +93,7 @@ class AddEditFragment : Fragment() {
             }
         }
     }
-
+    //Создаем note из введенных данных
     private fun getNoteFromInput(id: Int = 0): Note {
         return Note(
             id = if (id > 0) id else 0,

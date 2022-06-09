@@ -43,6 +43,7 @@ class ListFragment : Fragment() {
         }
         binding.list.adapter = adapter
 
+        //берем из бд записи и вставляем в recyclerview.
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.notes.collectLatest { it: List<Note>? ->
