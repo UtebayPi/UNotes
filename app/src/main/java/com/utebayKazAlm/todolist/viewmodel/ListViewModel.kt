@@ -18,12 +18,21 @@ class ListViewModel @Inject constructor(val repository: NoteRepository) : ViewMo
     fun getNote(id: Int) = repository.getNote(id)
 
 
-    suspend fun addNote(note: Note): Boolean {
-        return repository.addNote(note)
+    fun addNote(note: Note): Boolean {
+        //Проверяем на валидность данных.
+        if (!note.isValidNote()) return false
+        viewModelScope.launch {
+            repository.addNote(note)
+        }
+        return true
     }
 
-    suspend fun updateNote(note: Note): Boolean {
-        return repository.updateNote(note)
+    fun updateNote(note: Note): Boolean {
+        if (!note.isValidNote()) return false
+        viewModelScope.launch {
+            repository.updateNote(note)
+        }
+        return true
     }
 
     fun deleteNote(note: Note) {

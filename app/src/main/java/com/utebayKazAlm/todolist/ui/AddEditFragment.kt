@@ -53,12 +53,10 @@ class AddEditFragment : Fragment() {
     private fun addNote() {
         binding.actionButton.text = getString(R.string.save)
         binding.actionButton.setOnClickListener {
-            viewModel.viewModelScope.launch {
-                //Смотря на валидность данных, возвращяемся если так.
-                val valid = viewModel.addNote(getNoteFromInput())
-                if (valid)
-                    findNavController().navigate(AddEditFragmentDirections.actionAddEditFragmentToListFragment())
-            }
+            //Смотря на валидность данных, возвращяемся если так.
+            val valid = viewModel.addNote(getNoteFromInput())
+            if (valid)
+                findNavController().navigate(AddEditFragmentDirections.actionAddEditFragmentToListFragment())
         }
     }
 
@@ -82,17 +80,16 @@ class AddEditFragment : Fragment() {
                     }
                     //обновляем note
                     binding.actionButton.setOnClickListener {
-                        viewModel.viewModelScope.launch {
-                            val valid = viewModel.updateNote(getNoteFromInput(id))
-                            if (valid)
-                                findNavController().popBackStack()
-                        }
+                        val valid = viewModel.updateNote(getNoteFromInput(id))
+                        if (valid)
+                            findNavController().popBackStack()
                     }
 
                 }
             }
         }
     }
+
     //Создаем note из введенных данных
     private fun getNoteFromInput(id: Int = 0): Note {
         return Note(

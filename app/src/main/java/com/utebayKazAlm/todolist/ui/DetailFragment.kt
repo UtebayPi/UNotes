@@ -70,9 +70,7 @@ class DetailFragment : Fragment() {
             binding.isDone.visibility = View.VISIBLE
             binding.isDone.isChecked = note.checked
             binding.isDone.setOnCheckedChangeListener { button, b ->
-                viewModel.viewModelScope.launch {
-                    viewModel.updateNote(note.copy(checked = b))
-                }
+                viewModel.updateNote(note.copy(checked = b))
             }
         } else { // Если просто записка (checked = null), то скрываем кнопку
             binding.isDone.visibility = View.GONE
