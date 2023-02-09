@@ -1,2 +1,2 @@
 # UNotes
-ToDoList app made with Room Database.
+Notes app made with Room Database.
