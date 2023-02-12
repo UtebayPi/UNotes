@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="done">Сделано</string>
-    <string name="creator_name">Создал Парасат Утебай</string>
+    <string name="creator_name">Создал Парасат Отебай</string>
     <string name="not_done">Не закончено</string>
     <string name="question">Хотите удалить это?</string>
     <string name="yes">Да</string>

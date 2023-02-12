@@ -9,11 +9,11 @@ data class Note(
     val id: Int = 0,
     val title: String,
     val content: String,
-    // Это значение озночает, является ли это задачей или запиской. Если запиской то null.
-    // Если задача true то это выполнено, а если false то не выполнено
+    // This value signifies if this note is a task. If it's not null, then it is a task.
+    // True or false means if the task is unfinished or done.
     val checked: Boolean? = null,
 ) {
-    //Проверяем, правильного ли формата запись.
+    //Validating content
     fun isValidNote(): Boolean {
         return title.isNotBlank() && content.isNotBlank()
     }

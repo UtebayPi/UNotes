@@ -37,13 +37,13 @@ class ListFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         val adapter = NoteListAdapter {
-            //При нажатий на определенную запись, берется note этой записи, и переходит по его id
+            //When you press on a note from a recyclerView, it goes to a new screen with it's id.
             val action = ListFragmentDirections.actionListFragmentToDetailFragment(id = it.id)
             findNavController().navigate(action)
         }
         binding.list.adapter = adapter
 
-        //берем из бд записи и вставляем в recyclerview.
+        //Taking data from db and loading into recyclerView
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.notes.collectLatest { it: List<Note>? ->

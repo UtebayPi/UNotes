@@ -6,7 +6,6 @@ import com.utebayKazAlm.todolist.data.room.NoteDao
 
 
 class NoteRepository(val dao: NoteDao) {
-    //Не стал писать dataSource так как приложение слишком маленькое, и это бы добавило ненужного кода
 
     val REPO = "NoteRepository"
 

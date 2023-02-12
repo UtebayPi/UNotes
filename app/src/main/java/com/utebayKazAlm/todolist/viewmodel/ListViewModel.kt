@@ -19,7 +19,6 @@ class ListViewModel @Inject constructor(val repository: NoteRepository) : ViewMo
 
 
     fun addNote(note: Note): Boolean {
-        //Проверяем на валидность данных.
         if (!note.isValidNote()) return false
         viewModelScope.launch {
             repository.addNote(note)

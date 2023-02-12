@@ -11,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.utebayKazAlm.todolist.R
@@ -19,10 +18,8 @@ import com.utebayKazAlm.todolist.data.room.Note
 import com.utebayKazAlm.todolist.databinding.FragmentAddEditBinding
 import com.utebayKazAlm.todolist.viewmodel.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.lang.Thread.sleep
 
 @AndroidEntryPoint
 class AddEditFragment : Fragment() {
@@ -42,7 +39,7 @@ class AddEditFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         val id = navArgs.id
-        // Проверяем, создание новой записи или изменение существующей
+        // Checking if we are creating a new entry or editing the existing one.
         if (id > 0) {
             updateNote(id)
         } else {
@@ -53,7 +50,7 @@ class AddEditFragment : Fragment() {
     private fun addNote() {
         binding.actionButton.text = getString(R.string.save)
         binding.actionButton.setOnClickListener {
-            //Смотря на валидность данных, возвращяемся если так.
+            //Verifying that note's formatting is valid.
             val valid = viewModel.addNote(getNoteFromInput())
             if (valid)
                 findNavController().navigate(AddEditFragmentDirections.actionAddEditFragmentToListFragment())
@@ -67,18 +64,17 @@ class AddEditFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getNote(id).collectLatest { note: Note? ->
-                    //проверяем на null
                     if (note == null) {
                         findNavController().popBackStack()
                         return@collectLatest
                     }
-                    //берем существующий note из бд, и ставим его значения в поля
+                    //put the existing note's values into the fields
                     binding.apply {
                         if (note.checked != null) checkBox.isChecked = true
                         titleInput.setText(note.title, TextView.BufferType.SPANNABLE)
                         contentInput.setText(note.content, TextView.BufferType.SPANNABLE)
                     }
-                    //обновляем note
+                    //updating the note
                     binding.actionButton.setOnClickListener {
                         val valid = viewModel.updateNote(getNoteFromInput(id))
                         if (valid)
@@ -90,7 +86,7 @@ class AddEditFragment : Fragment() {
         }
     }
 
-    //Создаем note из введенных данных
+    //Creating a note from input
     private fun getNoteFromInput(id: Int = 0): Note {
         return Note(
             id = if (id > 0) id else 0,
