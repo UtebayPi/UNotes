@@ -1,4 +1,4 @@
-package com.utebayKazAlm.todolist.ui
+package com.utebaypi.todolist.ui
 
 
 import android.os.Bundle
@@ -11,14 +11,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.utebayKazAlm.todolist.R
-import com.utebayKazAlm.todolist.data.room.Note
-import com.utebayKazAlm.todolist.databinding.FragmentDetailBinding
-import com.utebayKazAlm.todolist.viewmodel.ListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.utebaypi.todolist.R
+import com.utebaypi.todolist.data.room.Note
+import com.utebaypi.todolist.databinding.FragmentDetailBinding
+import com.utebaypi.todolist.viewmodel.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -45,8 +44,6 @@ class DetailFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getNote(id).collectLatest { note: Note? ->
-                    //Эта проверка нужно чтобы избежать ошибок. Даже если указано что не может
-                    //возвращять null используя null safety, если запись удалится в базе данных, возвращяет null.
                     if (note == null) {
                         findNavController().popBackStack()
                     } else {
@@ -63,27 +60,27 @@ class DetailFragment : Fragment() {
             titleText.text = note.title
             contentText.text = note.content
         }
-        //Проверяем какого типа записка. Классификаций написал в Note. Если это задача (checked != null) то
-        //делаем кнопку изменения статуса задачи видимой, checkbox даем значение checked, и при
-        // его нажатий, меняем checked в note
+        //Checking what is the type of the note. If it's a task (checked != null)
+        //then we make the checkbox visible, give it the note's checked value, and when
+        //we press, change the checked value in note.
         if (note.checked != null) {
             binding.isDone.visibility = View.VISIBLE
             binding.isDone.isChecked = note.checked
             binding.isDone.setOnCheckedChangeListener { button, b ->
                 viewModel.updateNote(note.copy(checked = b))
             }
-        } else { // Если просто записка (checked = null), то скрываем кнопку
+        } else { // If it's just a note (checked = null), then we hide the checkbox
             binding.isDone.visibility = View.GONE
         }
         binding.deleteButton.setOnClickListener {
             val builder = MaterialAlertDialogBuilder(requireContext())
-            builder.setMessage(getString(R.string.question))// "Do you want to delete it?"
+            builder.setMessage(getString(R.string.question))
                 .setPositiveButton(getString(R.string.yes)) { dialogInterface, i ->
                     viewModel.deleteNote(note)
                     findNavController().popBackStack()
                 }
                 .setNegativeButton(getString(R.string.no)) { dialogInterface, i -> }
-            builder.create().show() // чтобы работало
+            builder.create().show()
 
         }
         binding.editButton.setOnClickListener {

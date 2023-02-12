@@ -1,4 +1,4 @@
-package com.utebayKazAlm.todolist.data.room
+package com.utebaypi.todolist.data.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

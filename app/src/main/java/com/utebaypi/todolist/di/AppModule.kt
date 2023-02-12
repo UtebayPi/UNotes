@@ -1,9 +1,9 @@
-package com.utebayKazAlm.todolist.di
+package com.utebaypi.todolist.di
 
 import android.content.Context
 import androidx.room.Room
-import com.utebayKazAlm.todolist.data.room.NoteDatabase
-import com.utebayKazAlm.todolist.data.NoteRepository
+import com.utebaypi.todolist.data.room.NoteDatabase
+import com.utebaypi.todolist.data.NoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

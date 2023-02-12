@@ -1,4 +1,4 @@
-package com.utebayKazAlm.todolist.ui
+package com.utebaypi.todolist.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,10 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.utebayKazAlm.todolist.R
-import com.utebayKazAlm.todolist.data.room.Note
-import com.utebayKazAlm.todolist.databinding.FragmentAddEditBinding
-import com.utebayKazAlm.todolist.viewmodel.ListViewModel
+import com.utebaypi.todolist.R
+import com.utebaypi.todolist.data.room.Note
+import com.utebaypi.todolist.databinding.FragmentAddEditBinding
+import com.utebaypi.todolist.viewmodel.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

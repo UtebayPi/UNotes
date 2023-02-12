@@ -1,8 +1,8 @@
-package com.utebayKazAlm.todolist.data
+package com.utebaypi.todolist.data
 
 import android.util.Log
-import com.utebayKazAlm.todolist.data.room.Note
-import com.utebayKazAlm.todolist.data.room.NoteDao
+import com.utebaypi.todolist.data.room.Note
+import com.utebaypi.todolist.data.room.NoteDao
 
 
 class NoteRepository(val dao: NoteDao) {

@@ -1,4 +1,4 @@
-package com.utebayKazAlm.todolist
+package com.utebaypi.todolist
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

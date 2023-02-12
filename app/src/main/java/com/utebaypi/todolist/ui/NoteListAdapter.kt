@@ -1,4 +1,4 @@
-package com.utebayKazAlm.todolist.ui
+package com.utebaypi.todolist.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.utebayKazAlm.todolist.R
-import com.utebayKazAlm.todolist.data.room.Note
-import com.utebayKazAlm.todolist.databinding.FragmentNoteBinding
+import com.utebaypi.todolist.R
+import com.utebaypi.todolist.data.room.Note
+import com.utebaypi.todolist.databinding.FragmentNoteBinding
 
 class NoteListAdapter(
     private val clickListener: (Note) -> Unit

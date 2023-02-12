@@ -1,8 +1,8 @@
-package com.utebayKazAlm.todolist.viewmodel
+package com.utebaypi.todolist.viewmodel
 
 import androidx.lifecycle.*
-import com.utebayKazAlm.todolist.data.room.Note
-import com.utebayKazAlm.todolist.data.NoteRepository
+import com.utebaypi.todolist.data.room.Note
+import com.utebaypi.todolist.data.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
