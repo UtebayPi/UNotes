@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu) //main_menu это меню которое мы хотим добавить.
+        menuInflater.inflate(R.menu.menu_main, menu) //setting up the menu bar.
         return true
     }
 
