@@ -28,14 +28,14 @@ class TodolistUiTest {
 
     @Before
     @After
-    fun ClearDB() {
+    fun clearDB() {
         InstrumentationRegistry.getTargetContext().deleteDatabase("note_database")
     }
     @Test
     fun application_making_new_note_should_be_shown() {
         onView(withId(R.id.add_button)).perform(click())
-        onView(withId(R.id.title_input)).perform(typeText("How is it?"))
-        onView(withId(R.id.content_input)).perform(typeText("Is everything alright?"))
+        onView(withId(R.id.title_input)).perform(replaceText("How is it?"))
+        onView(withId(R.id.content_input)).perform(replaceText("Is everything alright?"))
         onView(isRoot()).perform(waitFor(500))
         onView(withId(R.id.action_button)).perform(click())
         onView(withText("How is it?")).perform(click())
